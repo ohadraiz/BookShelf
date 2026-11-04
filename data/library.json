@@ -1,0 +1,2091 @@
+{
+  "format": "bookshelf-library",
+  "formatVersion": "1.0.0",
+  "exportedAt": "2026-11-04T11:31:15Z",
+  "generator": "BookShelf tools/convert.py",
+  "library": {
+    "id": "ohad-noa-home",
+    "name": "ארון הספרים של אוהד ונועה",
+    "inLanguage": "he",
+    "owners": [
+      "אוהד",
+      "נועה"
+    ],
+    "shelves": [
+      {
+        "id": "s1"
+      },
+      {
+        "id": "s2"
+      },
+      {
+        "id": "s3"
+      },
+      {
+        "id": "s4"
+      },
+      {
+        "id": "s5"
+      },
+      {
+        "id": "s6"
+      },
+      {
+        "id": "s7"
+      },
+      {
+        "id": "s8"
+      },
+      {
+        "id": "s9"
+      },
+      {
+        "id": "s10"
+      }
+    ]
+  },
+  "books": [
+    {
+      "id": "b1",
+      "work": {
+        "name": "האש והעצים",
+        "author": [
+          "ש\"י עגנון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b2",
+      "work": {
+        "name": "הכנסת כלה",
+        "author": [
+          "ש\"י עגנון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b3",
+      "work": {
+        "name": "אלו ואלו",
+        "author": [
+          "ש\"י עגנון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 3,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b4",
+      "work": {
+        "name": "על כפות המנעול",
+        "author": [
+          "ש\"י עגנון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 4,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b5",
+      "work": {
+        "name": "אורח נטה ללון",
+        "author": [
+          "ש\"י עגנון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b6",
+      "work": {
+        "name": "סמוך ונראה",
+        "author": [
+          "ש\"י עגנון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 6,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b7",
+      "work": {
+        "name": "עד הנה",
+        "author": [
+          "ש\"י עגנון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b8",
+      "work": {
+        "name": "תמול שלשום",
+        "author": [
+          "ש\"י עגנון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b9",
+      "work": {
+        "name": "לפני המקום",
+        "author": [
+          "חיים באר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 9,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b10",
+      "work": {
+        "name": "נוף עם שלושה עצים",
+        "author": [
+          "יהושע קנז"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 10,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b11",
+      "work": {
+        "name": "עת הזמיר",
+        "author": [
+          "חיים באר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s1",
+        "position": 11,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b12",
+      "work": {
+        "name": "פגישה, חצי פגישה",
+        "author": [
+          "רחל"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 1,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b13",
+      "work": {
+        "author": [
+          "אלחנן ניר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 2,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b14",
+      "work": {
+        "author": [
+          "אסף ענברי"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 3,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b15",
+      "work": {
+        "author": [
+          "אסף ענברי"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 4,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b16",
+      "work": {
+        "name": "הביתה",
+        "author": [
+          "אסף ענברי"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b17",
+      "work": {
+        "name": "ילדים בסדר גמור",
+        "author": [
+          "חנה יבלונקה"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 6,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b18",
+      "work": {
+        "name": "קורצ'אק - ניסיון לביוגרפיה",
+        "author": [
+          "יואנה אולצ'אק-רוניקייר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b19",
+      "work": {
+        "name": "הבחורים בסירה",
+        "author": [
+          "דניאל ג'יימס בראון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b20",
+      "work": {
+        "name": "ריפוי או פיתוי?",
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 9,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b21",
+      "work": {
+        "name": "הערות שוליים מרתקות מן ההיסטוריה",
+        "author": [
+          "ג'יילס מילטון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 10,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b22",
+      "work": {
+        "name": "שרלוק הולמס - כרך ד",
+        "author": [
+          "ארתור קונן דויל"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 11,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b23",
+      "work": {
+        "name": "שרלוק הולמס - כרך ג",
+        "author": [
+          "ארתור קונן דויל"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 12,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b24",
+      "work": {
+        "name": "שרלוק הולמס - כרך ב",
+        "author": [
+          "ארתור קונן דויל"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 13,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b25",
+      "work": {
+        "name": "שרלוק הולמס - כרך א",
+        "author": [
+          "ארתור קונן דויל"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s2",
+        "position": 14,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b26",
+      "work": {
+        "name": "אנשי העבר",
+        "author": [
+          "דאגלס סמית"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b27",
+      "work": {
+        "name": "גנבת הספרים",
+        "author": [
+          "מרקוס זוסאק"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b28",
+      "work": {
+        "name": "מועדון גרנזי לספרות ולפאי קליפות תפודים",
+        "author": [
+          "מרי אן שפר",
+          "אנני בארוז"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 3,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b29",
+      "work": {
+        "name": "סטונר",
+        "author": [
+          "ג'ון ויליאמס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 4,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b30",
+      "work": {
+        "name": "הנסיכה הקסומה",
+        "author": [
+          "ויליאם גולדמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b31",
+      "work": {
+        "name": "זה הולך לכאוב",
+        "author": [
+          "אדם קיי"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 6,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b32",
+      "work": {
+        "name": "אפרסקים לאדוני הכומר",
+        "author": [
+          "ג'ואן האריס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b33",
+      "work": {
+        "name": "שוקולד",
+        "author": [
+          "ג'ואן האריס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b34",
+      "work": {
+        "name": "ג'נטלמנים ושחקנים",
+        "author": [
+          "ג'ואן האריס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 9,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b35",
+      "work": {
+        "name": "חמישה רבעי תפוז",
+        "author": [
+          "ג'ואן האריס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 10,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b36",
+      "work": {
+        "author": [
+          "אשר קרביץ"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 11,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b37",
+      "work": {
+        "name": "לנצח את היטלר",
+        "author": [
+          "אברהם בורג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 12,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b38",
+      "work": {
+        "name": "לפיכך נתכנסנו",
+        "author": [
+          "יוסי שריד"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 13,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b39",
+      "work": {
+        "name": "ללכת על דגים",
+        "author": [
+          "חיים נבון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s3",
+        "position": 14,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b40",
+      "work": {
+        "name": "שפאר",
+        "author": [
+          "יואכים פסט"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b41",
+      "work": {
+        "name": "סיפורה של מדינה במחתרת",
+        "author": [
+          "יאן קרסקי"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b42",
+      "work": {},
+      "copy": {
+        "shelf": "s4",
+        "position": 3,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b43",
+      "work": {
+        "name": "רחוב מזרח מערב",
+        "author": [
+          "פיליפ סנדס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 4,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b44",
+      "work": {
+        "name": "ברלין במלחמה",
+        "author": [
+          "רוג'ר מורהאוז"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b45",
+      "work": {
+        "name": "אקסטזה טוטאלית",
+        "author": [
+          "נורמן אולר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 6,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b46",
+      "work": {
+        "name": "חלום השבר",
+        "author": [
+          "כרמית גיא"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b47",
+      "work": {
+        "name": "פריזאים",
+        "author": [
+          "גרהם רוב"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b48",
+      "work": {
+        "name": "בתה של סטלין",
+        "author": [
+          "רוזמרי סאליבן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 9,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b49",
+      "work": {
+        "name": "האימפריה של היטלר",
+        "author": [
+          "מארק מאזובר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 10,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b50",
+      "work": {
+        "name": "המרגלים",
+        "author": [
+          "איתן הבר",
+          "יוסי מלמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 11,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b51",
+      "work": {
+        "name": "ואלקירי",
+        "author": [
+          "דני אורבך"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 12,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b52",
+      "work": {
+        "name": "המלחשים",
+        "author": [
+          "אורלנדו פייג'ס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s4",
+        "position": 13,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b53",
+      "work": {
+        "name": "השתיין",
+        "author": [
+          "הנס פאלאדה"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b54",
+      "work": {
+        "name": "לבד בברלין",
+        "author": [
+          "הנס פאלאדה"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b55",
+      "work": {
+        "name": "גוסטב איש הברזל",
+        "author": [
+          "הנס פאלאדה"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 3,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b56",
+      "work": {
+        "name": "מי שאכל פעם אחת מצלחת פח",
+        "author": [
+          "הנס פאלאדה"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 4,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b57",
+      "work": {
+        "name": "איש קטן, לאן?",
+        "author": [
+          "הנס פאלאדה"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b58",
+      "work": {
+        "name": "סבתא שלי מוסרת דרישת שלום ומבקשת סליחה",
+        "author": [
+          "פרדריק בקמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 6,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b59",
+      "work": {
+        "name": "איש ששמו אובה",
+        "author": [
+          "פרדריק בקמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b60",
+      "work": {
+        "name": "בריט-מארי היתה כאן",
+        "author": [
+          "פרדריק בקמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b61",
+      "work": {
+        "author": [
+          "פרדריק בקמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 9,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b62",
+      "work": {
+        "name": "קיצור תולדות הישראליות",
+        "author": [
+          "נתנאל אלינסון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s5",
+        "position": 10,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b63",
+      "work": {
+        "name": "מי יכתוב את ההיסטוריה שלנו?",
+        "author": [
+          "שמואל ד' קאסוב"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b64",
+      "work": {
+        "name": "צוללי המעמקים",
+        "author": [
+          "רוברט קרסון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b65",
+      "work": {
+        "name": "לנינגרד",
+        "author": [
+          "אנה ריד"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 3,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b66",
+      "work": {
+        "name": "עם הספל: בתי קפה ותרבות יהודית מודרנית",
+        "author": [
+          "שחר פינסקר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 4,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b67",
+      "work": {
+        "name": "לפני המבול",
+        "author": [
+          "אוטו פרידריך"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b68",
+      "work": {
+        "name": "אנשים רגילים",
+        "author": [
+          "כריסטופר בראונינג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 6,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b69",
+      "work": {
+        "name": "סמוצ'ה: ביוגרפיה של רחוב יהודי בוורשה",
+        "author": [
+          "בני מר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b70",
+      "work": {
+        "name": "סיפור על אהבה וחושך",
+        "author": [
+          "עמוס עוז"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b71",
+      "work": {
+        "name": "רקוויאם גרמני",
+        "author": [
+          "עמוס אילון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 9,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b72",
+      "work": {},
+      "copy": {
+        "shelf": "s6",
+        "position": 10,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b73",
+      "work": {
+        "name": "רומן רוסי",
+        "author": [
+          "מאיר שלו"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 11,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b74",
+      "work": {
+        "name": "יונה ונער",
+        "author": [
+          "מאיר שלו"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 12,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b75",
+      "work": {
+        "name": "הדבר היה כך",
+        "author": [
+          "מאיר שלו"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 13,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b76",
+      "work": {
+        "name": "עשיו",
+        "author": [
+          "מאיר שלו"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 14,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b77",
+      "work": {
+        "name": "כימים אחדים",
+        "author": [
+          "מאיר שלו"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s6",
+        "position": 15,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b78",
+      "work": {
+        "name": "בין שתי ערים",
+        "author": [
+          "צ'רלס דיקנס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b79",
+      "work": {
+        "name": "מחרוזת ירקן",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b80",
+      "work": {
+        "name": "מרכבת היהלום",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 3,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b81",
+      "work": {
+        "name": "אדון המוות",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 4,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b82",
+      "work": {
+        "name": "אהובת המוות",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b83",
+      "work": {
+        "name": "יועץ ממלכתי",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 6,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b84",
+      "work": {
+        "name": "הכתרה",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b85",
+      "work": {
+        "name": "משימות מיוחדות",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b86",
+      "work": {
+        "name": "מות אכילס",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 9,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b87",
+      "work": {
+        "name": "לוויתן",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 10,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b88",
+      "work": {
+        "name": "הגמביט הטורקי",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 11,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b89",
+      "work": {
+        "name": "עזאזל",
+        "author": [
+          "בוריס אקונין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s7",
+        "position": 12,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b90",
+      "work": {
+        "name": "מחול העקרבים",
+        "author": [
+          "שפרה הורן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b91",
+      "work": {
+        "name": "חדר",
+        "author": [
+          "אמה דונהיו"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b92",
+      "work": {
+        "name": "הטיגריס הלבן",
+        "author": [
+          "ארווינד אדיגה"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 3,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b93",
+      "work": {
+        "name": "אמא קומי",
+        "author": [
+          "אלדד כהן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 4,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b94",
+      "work": {},
+      "copy": {
+        "shelf": "s8",
+        "position": 5,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b95",
+      "work": {
+        "name": "מגלה החולשות",
+        "author": [
+          "ישי שריד"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 6,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b96",
+      "work": {
+        "name": "לקסיקון משפחתי",
+        "author": [
+          "נטליה גינצבורג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b97",
+      "work": {
+        "name": "כיסא פנוי",
+        "author": [
+          "ג'יי. קיי. רולינג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b98",
+      "work": {
+        "name": "בתולת הים",
+        "author": [
+          "קמילה לקברג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 9,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b99",
+      "work": {
+        "name": "ימיו ולילותיו של הדודה אווה",
+        "author": [
+          "אמנון דנקנר"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 10,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b100",
+      "work": {
+        "name": "הצל של אבי",
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 11,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b101",
+      "work": {
+        "name": "רשלנות",
+        "author": [
+          "דבורה רוברטסון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s8",
+        "position": 12,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b102",
+      "work": {
+        "name": "אובלומוב",
+        "author": [
+          "איוון גונצ'רוב"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b103",
+      "work": {
+        "name": "הדלת",
+        "author": [
+          "מגדה סאבו"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b104",
+      "work": {
+        "name": "הרפתקאות אליס בארץ הפלאות",
+        "author": [
+          "לואיס קרול"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 3,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b105",
+      "work": {
+        "name": "במערב אין כל חדש",
+        "author": [
+          "אריך מריה רמרק"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 4,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b106",
+      "work": {
+        "name": "חיים ועוד חיים",
+        "author": [
+          "קייט אטקינסון"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b107",
+      "work": {
+        "name": "משהו טרי",
+        "author": [
+          "פ. ג'. וודהאוס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 6,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b108",
+      "work": {
+        "name": "סוחר הקפה",
+        "author": [
+          "דייוויד ליס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b109",
+      "work": {
+        "name": "חלאס",
+        "author": [
+          "רותם ברוכין"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b110",
+      "work": {
+        "name": "גרעינים לבנים",
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 9,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b111",
+      "work": {
+        "name": "מיסטר פיפ",
+        "author": [
+          "לויד ג'ונס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 10,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b112",
+      "work": {
+        "name": "סודות הצופן",
+        "author": [
+          "סיימון סינג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 11,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b113",
+      "work": {
+        "name": "המשפט האחרון של פרמה",
+        "author": [
+          "סיימון סינג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 12,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b114",
+      "work": {
+        "name": "הילד - מסע בעקבות תצלום",
+        "author": [
+          "דן פורת"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 13,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b115",
+      "work": {
+        "name": "מגדיר חדש לצמחי ישראל",
+        "author": [
+          "מיכאל זהרי"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 14,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b116",
+      "work": {
+        "name": "The Man Who Never Sleeps",
+        "author": [
+          "Levin A. Diatschenko"
+        ],
+        "inLanguage": "en"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 15,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b117",
+      "work": {
+        "name": "Those Who Are Loved",
+        "author": [
+          "Victoria Hislop"
+        ],
+        "inLanguage": "en"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 16,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b118",
+      "work": {
+        "name": "My Fair Lady",
+        "author": [
+          "Alan Jay Lerner"
+        ],
+        "inLanguage": "en"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 17,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b119",
+      "work": {
+        "name": "זן ואמנות הצלת הפלנטה",
+        "author": [
+          "טיק נהט האן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 18,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b120",
+      "work": {
+        "name": "בעצם יש כאן שתי מלחמות",
+        "author": [
+          "עמוס עוז"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 19,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b121",
+      "work": {
+        "name": "איך החייל מתקן את הגרמופון",
+        "author": [
+          "סאשה סטניישיץ'"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 20,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b122",
+      "work": {
+        "name": "אחוזות החוף",
+        "author": [
+          "אמיר גוטפרוינד"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 21,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b123",
+      "work": {
+        "name": "המסע הבלתי סביר (בעליל) של הרולד פריי",
+        "author": [
+          "רייצ'ל ג'ויס"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 22,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b124",
+      "work": {
+        "name": "מועדון הרצח של יום חמישי",
+        "author": [
+          "ריצ'רד אוסמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 23,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b125",
+      "work": {
+        "name": "הקליע שהחטיא",
+        "author": [
+          "ריצ'רד אוסמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 24,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b126",
+      "work": {
+        "name": "האיש שמת פעמיים",
+        "author": [
+          "ריצ'רד אוסמן"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 25,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b127",
+      "work": {
+        "name": "המוסד - מלחמות הצללים",
+        "author": [
+          "מיכאל בר-זהר",
+          "נסים משעל"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s9",
+        "position": 26,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b128",
+      "work": {
+        "name": "מלחמה ושלום (כרכים ג-ד)",
+        "author": [
+          "ל. נ. טולסטוי"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 1,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b129",
+      "work": {
+        "name": "מלחמה ושלום",
+        "author": [
+          "ל. נ. טולסטוי"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 2,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b130",
+      "work": {
+        "name": "מטבח משפחתי",
+        "author": [
+          "גיל חובב"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 3,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b131",
+      "work": {
+        "author": [
+          "גיל חובב"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 4,
+        "status": "shelf",
+        "needsReview": true
+      }
+    },
+    {
+      "id": "b132",
+      "work": {
+        "name": "חיים יקרים",
+        "author": [
+          "אליס מונרו"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 5,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b133",
+      "work": {
+        "name": "אייכמן בירושלים",
+        "author": [
+          "חנה ארנדט"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 6,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b134",
+      "work": {
+        "name": "העולם של אתמול",
+        "author": [
+          "שטפן צווייג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 7,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b135",
+      "work": {
+        "name": "הנערה מהדואר",
+        "author": [
+          "שטפן צווייג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 8,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b136",
+      "work": {
+        "name": "קלריסה",
+        "author": [
+          "שטפן צווייג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 9,
+        "status": "shelf"
+      }
+    },
+    {
+      "id": "b137",
+      "work": {
+        "name": "קוצר רוחו של הלב",
+        "author": [
+          "שטפן צווייג"
+        ],
+        "inLanguage": "he"
+      },
+      "copy": {
+        "shelf": "s10",
+        "position": 10,
+        "status": "shelf"
+      }
+    }
+  ]
+}

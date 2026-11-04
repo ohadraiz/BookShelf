@@ -1,0 +1,11 @@
+# Built locally by tools/make_test.py
+test.html
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local Claude Code settings
+.claude/settings.local.json
