@@ -1,0 +1,155 @@
+/* BookShelf Library format 1.0.0 <-> the app's internal book records.
+   Mirrors tools/convert.py (from_backup / to_backup). Keep the two in step;
+   tests/format.test.js checks them against each other.
+   Works in the browser (window.BookFormat) and in Node (module.exports). */
+(function (root) {
+  'use strict';
+  var FORMAT = 'bookshelf-library';
+  var VERSION = '1.0.0';
+  var NO_TITLE = 'כותר לא מזוהה';
+  var NO_AUTHOR = 'לא מזוהה';
+  var STATUSES = ['shelf', 'reading', 'read', 'want', 'lent', 'borrowed', 'given'];
+
+  // Same list as AUTHOR_SPLITS in tools/convert.py.
+  var AUTHOR_SPLITS = {
+    'מיכאל בר-זהר ונסים משעל': ['מיכאל בר-זהר', 'נסים משעל'],
+    'איתן הבר ויוסי מלמן': ['איתן הבר', 'יוסי מלמן'],
+    'מרי אן שפר ואנני בארוז': ['מרי אן שפר', 'אנני בארוז']
+  };
+
+  var DEFAULT_LIBRARY = {
+    id: 'ohad-noa-home',
+    name: 'ארון הספרים של אוהד ונועה',
+    inLanguage: 'he',
+    owners: ['אוהד', 'נועה']
+  };
+
+  function empty(v) {
+    return v === undefined || v === null || v === '' || v === 0 ||
+      (Array.isArray(v) && v.length === 0) ||
+      (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0);
+  }
+  function prune(o) {
+    var r = {};
+    Object.keys(o).forEach(function (k) { if (!empty(o[k])) r[k] = o[k]; });
+    return r;
+  }
+  function guessLanguage(t) {
+    if (/[֐-׿]/.test(t || '')) return 'he';
+    if (/[A-Za-z]/.test(t || '')) return 'en';
+    return null;
+  }
+  function uniq(a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }); }
+
+  /* library.json -> { meta: {shelves, goal}, books: [...] } in the app's own shape */
+  function fromLibrary(lib) {
+    if (!lib || lib.format !== FORMAT) throw new Error('not a bookshelf-library file');
+    if (!/^1\./.test(String(lib.formatVersion))) throw new Error('unsupported format version ' + lib.formatVersion);
+    var L = lib.library || {};
+    var meta = {
+      shelves: (L.shelves || []).map(function (s) { return { id: String(s.id) }; }),
+      goal: L.yearlyGoal || 0
+    };
+    var books = (lib.books || []).map(function (bk) {
+      var w = bk.work || {}, c = bk.copy || {}, r = bk.reading || {};
+      var a = w.author || [];
+      var author = a.length > 1 ? a.join(' ו') : (a[0] || NO_AUTHOR);
+      return {
+        id: String(bk.id),
+        title: w.name || NO_TITLE,
+        author: author,
+        shelf: c.shelf || '',
+        pos: (c.position || 0) * 1000,
+        notes: r.notes || '',
+        check: !!c.needsReview,
+        status: STATUSES.indexOf(c.status) >= 0 ? c.status : 'shelf',
+        person: c.person || '',
+        due: c.dueDate || '',
+        rating: r.rating || 0,
+        review: r.review || '',
+        page: r.currentPage || 0,
+        pages: w.numberOfPages || 0,
+        started: r.startDate || '',
+        finished: r.endDate || '',
+        tags: (r.tags || []).slice(),
+        front: c.coverFront || '',
+        back: c.coverBack || ''
+      };
+    });
+    return { meta: meta, books: books };
+  }
+
+  /* the app's books + meta -> library.json */
+  function toLibrary(meta, books, libraryInfo, now) {
+    var shelves = (meta.shelves || []).map(function (s) { return { id: String(s.id) }; });
+    var order = {};
+    shelves.forEach(function (s, i) { order[s.id] = i; });
+
+    var positions = {}, byShelf = {};
+    books.forEach(function (b) { (byShelf[b.shelf || ''] = byShelf[b.shelf || ''] || []).push(b); });
+    Object.keys(byShelf).forEach(function (sid) {
+      byShelf[sid].slice().sort(function (x, y) { return (x.pos || 0) - (y.pos || 0); })
+        .forEach(function (b, i) { positions[b.id] = sid ? i + 1 : null; });
+    });
+
+    var out = books.map(function (b) {
+      var title = String(b.title || '').trim(), author = String(b.author || '').trim();
+      var authors = AUTHOR_SPLITS[author] || (author && author !== NO_AUTHOR ? [author] : []);
+      var name = title && title !== NO_TITLE ? title : null;
+      var work = prune({
+        name: name,
+        author: authors,
+        inLanguage: guessLanguage(name) || guessLanguage(authors.join(' ')),
+        numberOfPages: +b.pages || 0
+      });
+      var copy = prune({
+        shelf: b.shelf || null,
+        position: positions[b.id],
+        person: b.person,
+        dueDate: b.due,
+        coverFront: b.front,
+        coverBack: b.back
+      });
+      copy.status = b.status || 'shelf';
+      if (b.check) copy.needsReview = true;
+      var reading = prune({
+        rating: +b.rating || 0,
+        review: b.review,
+        notes: b.notes,
+        tags: uniq(b.tags || []),
+        currentPage: +b.page || 0,
+        startDate: b.started,
+        endDate: b.finished
+      });
+      // same key order as the Python converter: shelf, position, status, ...
+      var c2 = {};
+      ['shelf', 'position', 'status', 'person', 'dueDate', 'coverFront', 'coverBack', 'needsReview']
+        .forEach(function (k) { if (k in copy) c2[k] = copy[k]; });
+      var item = { id: String(b.id), work: work, copy: c2 };
+      if (Object.keys(reading).length) item.reading = reading;
+      return item;
+    });
+    out.sort(function (x, y) {
+      var a = order[x.copy.shelf], b = order[y.copy.shelf];
+      a = a === undefined ? 1e6 : a; b = b === undefined ? 1e6 : b;
+      return a - b || (x.copy.position || 0) - (y.copy.position || 0) || (x.id < y.id ? -1 : x.id > y.id ? 1 : 0);
+    });
+
+    var library = {};
+    Object.keys(libraryInfo || DEFAULT_LIBRARY).forEach(function (k) { library[k] = (libraryInfo || DEFAULT_LIBRARY)[k]; });
+    if (meta.goal) library.yearlyGoal = +meta.goal;
+    library.shelves = shelves;
+    return {
+      format: FORMAT,
+      formatVersion: VERSION,
+      exportedAt: now || new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
+      generator: 'BookShelf app.html',
+      library: library,
+      books: out
+    };
+  }
+
+  var api = { FORMAT: FORMAT, VERSION: VERSION, DEFAULT_LIBRARY: DEFAULT_LIBRARY, fromLibrary: fromLibrary, toLibrary: toLibrary };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else root.BookFormat = api;
+})(this);

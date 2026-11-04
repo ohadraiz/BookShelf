@@ -55,6 +55,7 @@
 node tests/format.test.js
 python tools/test_convert.py
 python tools/convert.py validate data/library.json
+python tools/make_beta.py --check
 ```
 בשינוי ב-JavaScript: `node --check` על הקובץ, ולסקריפט שבתוך `app.html` - לחלץ אותו ולבדוק. אחר כך לבדוק בדפדפן בכתובת המקומית.
 
@@ -69,6 +70,25 @@ python tools/convert.py validate data/library.json
 8. **עברית ונגישות כברירת מחדל.** RTL, חיפוש שמבין עברית (ניקוד, גרשיים, יי/וו), WCAG AA, כפתורים בגודל 44px, תמיכה בקוראי מסך. בלי אימוג'ים, מקף רגיל.
 9. **פשוט עד שצריך מורכב.** בלי build ובלי ספריות חיצוניות, עד שיש צורך אמיתי. פרטיות וזכויות יוצרים: תקצירים במילים שלנו, וסודות (מפתחות API) אף פעם לא בקוד.
 10. **משימה אחת, בעלים אחד, אישור אנושי.** כשהעבודה מתחלקת בין סוכנים (OpenCode, T3, Claude, Codex), כל משימה מוגדרת היטב ורק סוכן אחד עובד על כל קובץ בכל רגע. `AGENTS.md` הוא מקור ההוראות היחיד. אין commit, push או פרסום בלי אישור של אוהד.
+
+**חריגה זמנית מעיקרון 1 (מ-4 בנובמבר 2026, החלטה של אוהד):** בזמן הפיתוח המאגר ציבורי, והספרייה של אוהד ונועה (`data/`) מתפרסמת באתר הציבורי כנקודת ההתחלה. לפני פתיחה לאנשים אחרים מחזירים את העיקרון: באתר הציבורי ספרייה לדוגמה או ארון ריק, והנתונים האישיים יוצאים מהמאגר הציבורי.
+
+## האתר הציבורי והבטא
+| | כתובת | נבנה מ- |
+|---|---|---|
+| האתר הראשי | https://ohadraiz.github.io/BookShelf/ (מפנה ל-`app.html`) | `app.html`, `assets/format.js` |
+| בטא | https://ohadraiz.github.io/BookShelf/beta.html | `beta.html`, `assets/beta/` - נוצרים מ-`tools/make_beta.py` |
+
+GitHub Pages מפרסם את ענף `main` כמו שהוא. כל push ל-`main` עולה לאוויר תוך דקה-שתיים.
+לבטא אחסון נפרד בדפדפן (`bookshelf-beta-v1`, `bookshelf-beta-covers`), ופס סגול שמסמן אותה. `data/library.js` משותף לשניהם, כי הוא נתונים ולא קוד.
+
+**מחזור שחרור:**
+1. משנים את `app.html` או את `assets/format.js`, ובודקים מקומית.
+2. `python tools/make_beta.py`, ואז commit **רק** של `beta.html` ו-`assets/beta/`, ו-push (באישור). הבטא מתעדכנת, והאתר הראשי לא משתנה.
+3. בודקים בכתובת הבטא.
+4. אחרי אישור של אוהד: commit של `app.html` ו-`assets/format.js`, ו-push. עכשיו גם האתר הראשי מתעדכן.
+
+אין לערוך את `beta.html` או את `assets/beta/` ביד. `python tools/make_beta.py --check` נכשל אם הם לא מעודכנים.
 
 ## כללים קבועים
 א. אין commit, push או פרסום בלי אישור מפורש של אוהד.
