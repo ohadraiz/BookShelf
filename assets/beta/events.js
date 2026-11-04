@@ -20,7 +20,21 @@ $('menu').onclick=e=>{const m=e.target.closest('[data-m]');if(!m)return;$('menu'
   else if(k==='dark'){const on=document.body.classList.toggle('dark');$('darkBtn').textContent=on?'מצב בהיר':'מצב כהה';try{localStorage.setItem('shelf-dark',on?'1':'0')}catch(err){}}};
 $('ov').onclick=e=>{if(e.target.id==='ov')close()};
 document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const v=document.querySelector('.viewer');if(v){v.remove();return}if($('ov').classList.contains('open'))close();else if(arrange)setArrange(false)});
-$('main').addEventListener('change',e=>{if(e.target.id==='goalIn'){meta.goal=Math.max(0,+e.target.value||0);saveMeta();render()}});
+$('main').addEventListener('change',e=>{
+  if(e.target.id==='goalIn'){meta.goal=Math.max(0,+e.target.value||0);saveMeta();render()}
+  const field=e.target.closest('[data-reading-page]');
+  if(!field)return;
+  const b=byId(field.dataset.id);
+  if(!b||b.status!=='reading'||!canWrite)return;
+  if(field.value.trim()===''){field.value=String(+b.page||0);return}
+  const entered=field.valueAsNumber;
+  if(!Number.isFinite(entered)){field.value=String(+b.page||0);return}
+  const max=Math.max(0,+b.pages||0);
+  const page=Math.min(max||Infinity,Math.max(0,Math.floor(entered)));
+  if(page===(+b.page||0)){field.value=String(page);return}
+  patchBook(b.id,{page});
+  render();
+});
 $('main').onclick=e=>{
   const t=e.target;
   const step=t.closest('[data-reading-step]');

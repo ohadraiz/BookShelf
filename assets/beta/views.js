@@ -68,7 +68,7 @@ function renderReading(){
       </div>
       <div class="reading-actions edit-only">
         <button data-reading-step="-1" data-id="${esc(b.id)}" aria-label="עמוד קודם: ${esc(b.title)}"${page<=0?' disabled':''}>−</button>
-        <span>עמוד ${page}</span>
+        <label class="reading-page-label">עמוד נוכחי<input type="number" min="0"${pages?` max="${pages}"`:''} step="1" inputmode="numeric" dir="ltr" value="${page}" data-reading-page data-id="${esc(b.id)}" aria-label="עמוד נוכחי: ${esc(b.title)}"></label>
         <button data-reading-step="1" data-id="${esc(b.id)}" aria-label="עמוד הבא: ${esc(b.title)}"${pages&&page>=pages?' disabled':''}>+</button>
       </div>
       <div class="reading-footer">

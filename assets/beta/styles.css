@@ -56,7 +56,8 @@ main{max-width:1200px;margin:0 auto;padding:16px 14px 90px}
 .reading-progress .bar{height:10px}
 .reading-actions{display:flex;align-items:center;justify-content:center;gap:16px;margin:12px 0}
 .reading-actions button{width:48px;height:48px;padding:0;font-size:24px}
-.reading-actions span{min-width:82px;text-align:center;color:var(--muted)}
+.reading-page-label{display:grid;justify-items:center;gap:3px;color:var(--muted);font-size:12px}
+.reading-page-label input{width:92px;height:48px;text-align:center;font-size:17px}
 .reading-footer{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .reading-footer button{min-height:44px;flex:1}
 .mini{width:36px;height:54px;border-radius:3px;flex:0 0 auto;box-shadow:inset -3px 0 0 rgba(0,0,0,.2);background-size:cover;background-position:center}
