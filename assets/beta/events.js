@@ -23,6 +23,11 @@ document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const v=docum
 $('main').addEventListener('change',e=>{if(e.target.id==='goalIn'){meta.goal=Math.max(0,+e.target.value||0);saveMeta();render()}});
 $('main').onclick=e=>{
   const t=e.target;
+  const step=t.closest('[data-reading-step]');
+  if(step){const b=byId(step.dataset.id);if(!b||b.status!=='reading'||!canWrite)return;const page=Math.max(0,(+b.page||0)+(+step.dataset.readingStep));const next=b.pages?Math.min(page,+b.pages):page;if(next===(+b.page||0))return;patchBook(b.id,{page:next});render();return}
+  const finish=t.closest('[data-reading-finish]');
+  if(finish){const b=byId(finish.dataset.readingFinish);if(!b||b.status!=='reading'||!canWrite)return;const old={status:b.status,finished:b.finished,page:b.page};patchBook(b.id,{status:'read',finished:today(),page:b.pages||b.page||0});render();confetti();toast(`"${b.title}" סומן כהסתיים`,()=>{patchBook(b.id,old);render()});return}
+  if(t.closest('[data-pick-reading]')){openPick();return}
   if(t.id==='arrDone'){setArrange(false);toast('הסידור נשמר');return}
   const f=t.closest('[data-f]');if(f){fStatus=fStatus===f.dataset.f&&f.dataset.f?'':f.dataset.f;render();return}
   const tg=t.closest('[data-tag]');if(tg){fTag=fTag===tg.dataset.tag?'':tg.dataset.tag;render();return}

@@ -40,6 +40,25 @@ main{max-width:1200px;margin:0 auto;padding:16px 14px 90px}
 .cards{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;margin-bottom:18px}
 .card{flex:0 0 250px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;display:flex;gap:10px;transition:box-shadow .15s}
 .card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.reading-view{max-width:980px;margin:0 auto}
+.reading-heading{display:flex;justify-content:space-between;align-items:center;margin:4px 0 16px}
+.reading-heading h2{font-family:"Frank Ruhl Libre",serif;font-size:26px;margin:0}
+.reading-heading p{margin:2px 0 0;color:var(--muted)}
+.reading-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px}
+.reading-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 12px rgba(48,34,22,.06)}
+.reading-book{display:flex;align-items:center;gap:12px;width:100%;padding:0;text-align:right;border:0;background:transparent}
+.reading-cover{width:58px;height:82px;flex:0 0 auto;overflow:hidden;border-radius:4px;background:var(--chip);box-shadow:inset -3px 0 0 rgba(0,0,0,.18)}
+.reading-cover img{width:100%;height:100%;object-fit:cover}
+.reading-info{display:grid;gap:5px;min-width:0}
+.reading-info strong{font-size:17px;line-height:1.35}
+.reading-info>span{font-size:14px;color:var(--muted)}
+.reading-progress{display:grid;gap:7px;margin:16px 0 12px;color:var(--muted);font-size:13px}
+.reading-progress .bar{height:10px}
+.reading-actions{display:flex;align-items:center;justify-content:center;gap:16px;margin:12px 0}
+.reading-actions button{width:48px;height:48px;padding:0;font-size:24px}
+.reading-actions span{min-width:82px;text-align:center;color:var(--muted)}
+.reading-footer{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.reading-footer button{min-height:44px;flex:1}
 .mini{width:36px;height:54px;border-radius:3px;flex:0 0 auto;box-shadow:inset -3px 0 0 rgba(0,0,0,.2);background-size:cover;background-position:center}
 .card .t{font-weight:700;font-size:14px;line-height:1.25}
 .card .a{color:var(--muted);font-size:12px;margin:2px 0 6px}
@@ -184,7 +203,7 @@ tr.row{cursor:pointer}tr.row:hover{background:var(--soft)}
 @keyframes fadeup{from{opacity:0;transform:translateY(14px)}}
 @keyframes pulse{50%{box-shadow:0 4px 14px rgba(0,0,0,.35),0 0 0 10px rgba(241,213,142,.25)}}
 .ro .edit-only{display:none!important}
-@media (max-width:640px){h1{font-size:20px}.hide-sm{display:none!important}.card{flex-basis:220px}.cabinet{padding:12px 8px 8px}main{padding:12px 8px 90px}.hbar .l{width:96px}.tabs button{padding:6px 9px}}
+@media (max-width:640px){h1{font-size:20px}.hide-sm{display:none!important}.card{flex-basis:220px}.cabinet{padding:12px 8px 8px}main{padding:12px 8px 90px}.hbar .l{width:96px}.tabs button{padding:6px 9px}.reading-card{padding:14px}.reading-heading h2{font-size:23px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 /* install as an app (assets/pwa.js) */
 .install-btn{min-height:36px;padding:6px 12px;border-color:var(--accent);color:var(--accent);font-weight:500}

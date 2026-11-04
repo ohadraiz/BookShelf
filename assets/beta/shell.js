@@ -5,7 +5,7 @@
 document.body.insertAdjacentHTML('beforeend',`
 <header>
  <div class="row"><h1>ארון הספרים שלי</h1><span class="savetxt hide-sm" id="savetxt"></span><span class="dot off" id="dot" title="מצב שמירה"></span>
-  <div class="tabs"><button data-v="shelves">ארון</button><button data-v="list">רשימה</button><button data-v="stats">נתונים</button></div></div>
+  <div class="tabs"><button data-v="shelves">ארון</button><button data-v="list">רשימה</button><button data-v="reading">קריאה</button><button data-v="stats">נתונים</button></div></div>
  <div class="row">
   <input type="search" id="q" placeholder="חיפוש ספר, סופר, הערה או שם">
   <select id="fShelf" class="hide-sm" aria-label="סינון לפי מדף"></select>

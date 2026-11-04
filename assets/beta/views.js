@@ -21,6 +21,7 @@ function render(){
   const sy=window.scrollY;
   let html='';
   if(view==='stats')html=renderStats();
+  else if(view==='reading')html=renderReading();
   else{
     html+=renderChips();
     const list=books.filter(matches);
@@ -50,6 +51,33 @@ function render(){
   }
   $('main').innerHTML=html;
   window.scrollTo(0,sy);
+}
+function renderReading(){
+  const search=norm(q);
+  const reading=books.filter(b=>b.status==='reading'&&(!search||norm(`${b.title} ${b.author} ${b.notes} ${b.review}`).includes(search)));
+  if(!reading.length)return `<section class="reading-view" aria-labelledby="readingTitle"><div class="reading-heading"><div><h2 id="readingTitle">פינת הקריאה שלי</h2><p>${search?'לא נמצאו ספרים בקריאה התואמים לחיפוש.':'אין כרגע ספרים בקריאה.'}</p></div></div>${search?'':'<button class="primary edit-only" data-pick-reading>לבחור ספר לקריאה</button>'}</section>`;
+  const cards=reading.map(b=>{
+    const page=Math.max(0,+b.page||0),pages=Math.max(0,+b.pages||0),pct=pages?Math.min(100,Math.round(100*page/pages)):0;
+    const cover=b.front?`<img src="${coverUrl(b.front)}" alt="">`:'';
+    return `<article class="reading-card">
+      <button class="reading-book" data-id="${esc(b.id)}" aria-label="פתיחת פרטי הספר ${esc(b.title)}">
+        <span class="reading-cover">${cover}</span><span class="reading-info"><strong>${esc(b.title)}</strong><span>${esc(b.author)}</span></span>
+      </button>
+      <div class="reading-progress">
+        ${pages?`<div class="bar" role="progressbar" aria-label="התקדמות בקריאת ${esc(b.title)}" aria-valuemin="0" aria-valuemax="${pages}" aria-valuenow="${Math.min(page,pages)}"><div style="width:${pct}%"></div></div><span>${page} מתוך ${pages} עמודים · ${pct}%</span>`:`<span>${page?`עמוד ${page}`:'ההתקדמות עוד לא עודכנה'}${b.started?` · התחלה ${fmtDate(b.started)}`:''}</span>`}
+      </div>
+      <div class="reading-actions edit-only">
+        <button data-reading-step="-1" data-id="${esc(b.id)}" aria-label="עמוד קודם: ${esc(b.title)}"${page<=0?' disabled':''}>−</button>
+        <span>עמוד ${page}</span>
+        <button data-reading-step="1" data-id="${esc(b.id)}" aria-label="עמוד הבא: ${esc(b.title)}"${pages&&page>=pages?' disabled':''}>+</button>
+      </div>
+      <div class="reading-footer">
+        ${canWrite?`<button class="primary" data-reading-finish="${esc(b.id)}">סיימתי לקרוא</button>`:''}
+        <button data-id="${esc(b.id)}">פרטי הספר</button>
+      </div>
+    </article>`;
+  }).join('');
+  return `<section class="reading-view" aria-labelledby="readingTitle"><div class="reading-heading"><div><h2 id="readingTitle">פינת הקריאה שלי</h2><p>${reading.length===1?'ספר אחד בקריאה':`${reading.length} ספרים בקריאה`}</p></div></div><div class="reading-grid">${cards}</div></section>`;
 }
 function renderChips(){
   const cnt=k=>books.filter(b=>b.status===k).length;
