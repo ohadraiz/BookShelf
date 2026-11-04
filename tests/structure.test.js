@@ -40,6 +40,24 @@ for (const f of onDisk) if (!scripts.includes(f) && !styles.includes(f)) fails.p
 
 if (appFiles[appFiles.length - 1] !== 'assets/boot.js') fails.push('assets/boot.js must be the last script');
 
+// install as an app (PWA): manifest, icons and service worker
+const man = html.match(/<link rel="manifest" href="([^"]+)">/);
+if (!man) fails.push('app.html has no <link rel="manifest">');
+else {
+  try {
+    const m = JSON.parse(fs.readFileSync(path.join(root, man[1]), 'utf8'));
+    for (const k of ['name', 'short_name', 'start_url', 'display', 'icons']) if (!m[k]) fails.push('manifest is missing ' + k);
+    const sizes = (m.icons || []).map(i => i.sizes);
+    for (const s of ['192x192', '512x512']) if (!sizes.includes(s)) fails.push('manifest needs a ' + s + ' icon');
+    for (const i of m.icons || []) if (!fs.existsSync(path.join(root, i.src))) fails.push('missing icon ' + i.src);
+  } catch (e) { fails.push('manifest: ' + e.message); }
+}
+for (const f of [...html.matchAll(/<link rel="(?:icon|apple-touch-icon)" href="([^"]+)"/g)].map(m => m[1])) {
+  if (!fs.existsSync(path.join(root, f))) fails.push('missing icon ' + f);
+}
+try { new vm.Script(fs.readFileSync(path.join(root, 'sw.js'), 'utf8'), { filename: 'sw.js' }); }
+catch (e) { fails.push('sw.js: ' + e.message); }
+
 console.log(`app scripts ${appFiles.length}, styles ${styles.length}`);
 fails.forEach(f => console.log('FAIL', f));
 console.log(fails.length ? `${fails.length} failed` : 'PASS');

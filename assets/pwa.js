@@ -1,0 +1,76 @@
+/* BookShelf - Install as an app (PWA): service worker, install button in the header, install banner on phones. */
+"use strict";
+const PWA={
+  deferred:null,
+  DISMISS_KEY:'bookshelf-install-dismissed',
+  DISMISS_DAYS:14,
+  standalone:()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,
+  ios:()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),
+  phone:()=>matchMedia('(pointer: coarse)').matches&&Math.min(screen.width,screen.height)<820,
+  enabled:()=>!window.claude&&/^https?:$/.test(location.protocol)
+};
+
+function pwaSetup(){
+  if(!PWA.enabled())return;
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js').then(()=>navigator.serviceWorker.ready).then(reg=>{
+      // cache everything this page has loaded, so the app also opens without internet
+      const urls=[location.href.split('#')[0],...performance.getEntriesByType('resource').map(e=>e.name)]
+        .filter(u=>u.startsWith(location.origin));
+      if(reg.active)reg.active.postMessage({type:'cache',urls});
+    }).catch(()=>{});
+  }
+  if(PWA.standalone())return; // already running as an installed app
+
+  const btn=document.createElement('button');
+  btn.id='installBtn';btn.className='install-btn';btn.type='button';
+  btn.textContent='התקנה';btn.setAttribute('aria-label','התקנת הארון כאפליקציה');
+  btn.hidden=!(PWA.phone()||PWA.ios());
+  btn.onclick=pwaInstall;
+  const row=document.querySelector('header .row');
+  row.insertBefore(btn,row.querySelector('.tabs'));
+
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();PWA.deferred=e;btn.hidden=false});
+  addEventListener('appinstalled',()=>{PWA.deferred=null;btn.hidden=true;pwaHideBanner();toast('הארון הותקן')});
+
+  if(PWA.phone()&&!pwaDismissedRecently()){
+    // wait until the opening doors are gone
+    const t=setInterval(()=>{if(!$('splash')){clearInterval(t);setTimeout(pwaShowBanner,800)}},500);
+  }
+}
+
+function pwaDismissedRecently(){
+  try{const t=+localStorage.getItem(PWA.DISMISS_KEY)||0;return Date.now()-t<PWA.DISMISS_DAYS*864e5}catch(e){return false}
+}
+
+function pwaShowBanner(){
+  if($('installBanner')||PWA.standalone())return;
+  const b=document.createElement('div');
+  b.id='installBanner';b.className='install-banner';b.setAttribute('role','region');b.setAttribute('aria-label','התקנת האפליקציה');
+  b.innerHTML=`<p><b>אפשר להתקין את הארון בטלפון</b><br>אייקון במסך הבית, נפתח כמו אפליקציה ועובד גם בלי אינטרנט.</p>
+   <div class="acts"><button type="button" id="ibLater">לא עכשיו</button><button type="button" class="primary" id="ibGo">להתקנה</button></div>`;
+  document.body.appendChild(b);document.body.classList.add('has-install-banner');
+  $('ibGo').onclick=()=>{pwaHideBanner();pwaInstall()};
+  $('ibLater').onclick=()=>{try{localStorage.setItem(PWA.DISMISS_KEY,String(Date.now()))}catch(e){}pwaHideBanner()};
+}
+
+function pwaHideBanner(){const b=$('installBanner');if(b)b.remove();document.body.classList.remove('has-install-banner')}
+
+async function pwaInstall(){
+  if(PWA.deferred){
+    const e=PWA.deferred;PWA.deferred=null;
+    e.prompt();
+    try{const r=await e.userChoice;if(r&&r.outcome==='accepted')return}catch(err){}
+    return;
+  }
+  const backup='<p style="color:var(--muted);font-size:14px">הארון נשמר בכל מכשיר בנפרד. לגיבוי: תפריט > "ייצוא לקובץ library.json".</p>';
+  let steps;
+  if(PWA.ios())steps=`<ol><li>לחצו על כפתור השיתוף (ריבוע עם חץ למעלה) בתחתית המסך או ליד שורת הכתובת.</li><li>גללו ובחרו "הוספה למסך הבית".</li><li>לחצו "הוסף".</li></ol>
+    <p style="color:var(--muted);font-size:14px">באייפון, הארון שבאייקון נפרד מהארון שבדפדפן ספארי.</p>`;
+  else if(PWA.phone())steps=`<ol><li>פתחו את תפריט הדפדפן (שלוש הנקודות).</li><li>בחרו "התקנת אפליקציה" או "הוספה למסך הבית".</li></ol>`;
+  else steps=`<p>בכרום או באדג': לחצו על סמל ההתקנה בצד שורת הכתובת, או בתפריט הדפדפן על "התקנת ארון הספרים שלי".</p>`;
+  $('dlg').innerHTML=`<div class="dbody"><h3>התקנת הארון כאפליקציה</h3>${steps}${backup}<div class="actions"><span class="grow"></span><button class="primary" id="cancel">הבנתי</button></div></div>`;
+  $('ov').classList.add('open');$('cancel').onclick=close;
+}
+
+pwaSetup();
