@@ -1,6 +1,6 @@
 # Project Instructions - ארון הספרים שלי (BookShelf)
 
-קובץ ההוראות של הפרויקט, לכל הסוכנים: Claude Code (דרך `CLAUDE.md`), Codex ו-Copilot.
+קובץ ההוראות של הפרויקט, לכל הסוכנים: Claude Code (דרך `CLAUDE.md`), OpenCode (דרך `opencode.jsonc`), T3, Codex ו-Copilot.
 
 ## מה זה
 אפליקציית ווב בעברית (RTL) לניהול ספריית הספרים הביתית של אוהד ונועה. הארון מוצג כארון עץ עם מדפים ממוספרים, והספרים עומדים עליו כשדרות צבעוניות. לחיצה על ספר פותחת כרטיס: סטטוס קריאה, דירוג בכוכבים, הערה, תמונות כריכה ועריכה.
@@ -25,8 +25,12 @@
 ## מבנה הקבצים
 | קובץ | מה זה |
 |---|---|
-| `app.html` | האפליקציה: HTML, CSS ו-JS בקובץ אחד, בלי build |
+| `app.html` | מסגרת הדף בלבד: טוען את העיצוב ואת הסקריפטים לפי הסדר. בלי קוד בתוכו |
+| `assets/styles.css` | כל העיצוב |
+| `assets/*.js` | קוד האפליקציה, מחולק לפי תחום. ראו "חלוקת הקוד" |
 | `assets/format.js` | המרה בין הפורמט הקבוע לרשומות של האפליקציה. מקביל ל-`tools/convert.py` |
+| `package.json` | `npm test` מריץ את כל הבדיקות, `npm start` מפעיל שרת, `npm run beta` בונה בטא |
+| `opencode.jsonc` | הגדרות OpenCode: שואל לפני commit/push, חוסם push בכוח, reset ו-rebase |
 | `data/library.json` | נקודת ההתחלה בפורמט הקבוע. ההסבר ב-`docs/FORMAT.md` |
 | `data/library.js` | אותם נתונים כסקריפט, כדי שהאפליקציה תטען אותם. נוצר אוטומטית |
 | `data/library.csv` | אותם נתונים כגיליון |
@@ -50,14 +54,34 @@
 ג. `want` - "רוצה לקרוא". ספרים בסטטוס הזה לא מוצגים בארון.
 ד. מדפים: `meta.shelves` = `[{id}]`, הסדר במערך הוא סדר המדפים. אין להם שמות, הם מוצגים כ"מדף 1", "מדף 2".
 
+## חלוקת הקוד - לעבודה במקביל
+הסקריפטים הם סקריפטים רגילים (לא modules) שחולקים טווח גלובלי אחד, ונטענים בסדר הזה. כל קובץ יכול לקרוא לפונקציות מקבצים אחרים, אבל קוד שרץ מיד בטעינה יכול להשתמש רק במה שנטען לפניו.
+
+| # | קובץ | תחום | נוגע ב- |
+|---|---|---|---|
+| 1 | `core.js` | קבועים, עזרים (`esc`, `norm`, `uid`), מצב האפליקציה (`books`, `meta`, `view`...) | כולם תלויים בו. שינוי כאן - רק כשאף אחד אחר לא עובד |
+| 2 | `store.js` | שמירה: מקומי, Claude, זיכרון (`writeBook`, `patchBook`, `removeBook`, `saveMeta`) | |
+| 3 | `shell.js` | מסגרת הדף: כותרת, תפריט, חלונות, `$`, `toast` | תפריט חדש = כאן + `events.js` |
+| 4 | `views.js` | תצוגות: ארון, רשימה, נתונים, סינון | |
+| 5 | `covers.js` | תמונות כריכה: הקטנה, אחסון ב-IndexedDB, צפייה | |
+| 6 | `book.js` | כרטיס ספר, הוספה ועריכה, זיהוי מצילום, "מה לקרוא?", ניהול מדפים | |
+| 7 | `arrange.js` | מצב סידור: הזזת ספרים ומדפים, מיון מדף | |
+| 8 | `backup.js` | ייצוא וייבוא, חזרה לנקודת ההתחלה | |
+| 9 | `events.js` | חיבור אירועים (לחיצות, תפריט) ומסך הפתיחה | |
+| 10 | `boot.js` | טעינת הנתונים והפעלה. תמיד אחרון | |
+
+**כללים לעבודה במקביל:**
+א. משימה = רשימת קבצים מוגדרת מראש. שתי משימות שרצות במקביל לא חולקות אף קובץ.
+ב. `core.js`, `styles.css` ו-`app.html` משותפים לכולם. מי שצריך לשנות אותם - עושה זאת לבד, כשאף משימה אחרת לא פתוחה, או מבקש מאוהד לתאם.
+ג. שם גלובלי חדש (`let`, `const`, `function`) - לבדוק שאין כבר כזה. `tests/structure.test.js` נכשל אם שני קבצים מגדירים את אותו `let`/`const`.
+ד. קובץ חדש ב-`assets/` - להוסיף ל-`app.html` במקום הנכון בסדר. הבדיקה נכשלת אם קובץ לא נטען.
+
 ## בדיקות חובה לפני שמכריזים שמשהו עובד
 ```bash
-node tests/format.test.js
-python tools/test_convert.py
-python tools/convert.py validate data/library.json
-python tools/make_beta.py --check
+npm test
 ```
-בשינוי ב-JavaScript: `node --check` על הקובץ, ולסקריפט שבתוך `app.html` - לחלץ אותו ולבדוק. אחר כך לבדוק בדפדפן בכתובת המקומית.
+מריץ: מבנה הקבצים (`tests/structure.test.js`), הפורמט ב-JS מול Python (`tests/format.test.js`), ההמרות (`tools/test_convert.py`), תקינות `data/library.json`, ועדכניות הבטא (`make_beta.py --check`).
+אחר כך לבדוק בדפדפן בכתובת המקומית, ובבטא אם השינוי עולה אליה.
 
 ## עשרת העקרונות של הפרויקט
 1. **מסד הנתונים נפרד מהקוד.** הקוד אף פעם לא מכיל את הספרים של מישהו. הספרים נטענים ונשמרים בחוץ (היום בדפדפן, בעתיד ב-Supabase). כך אותה אפליקציה משרתת כל אדם עם הספרים שלו. באתר ציבורי: הקוד פתוח, הספרייה הפרטית לא.
@@ -76,17 +100,17 @@ python tools/make_beta.py --check
 ## האתר הציבורי והבטא
 | | כתובת | נבנה מ- |
 |---|---|---|
-| האתר הראשי | https://ohadraiz.github.io/BookShelf/ (מפנה ל-`app.html`) | `app.html`, `assets/format.js` |
+| האתר הראשי | https://ohadraiz.github.io/BookShelf/ (מפנה ל-`app.html`) | `app.html`, `assets/*.js`, `assets/styles.css` |
 | בטא | https://ohadraiz.github.io/BookShelf/beta.html | `beta.html`, `assets/beta/` - נוצרים מ-`tools/make_beta.py` |
 
 GitHub Pages מפרסם את ענף `main` כמו שהוא. כל push ל-`main` עולה לאוויר תוך דקה-שתיים.
 לבטא אחסון נפרד בדפדפן (`bookshelf-beta-v1`, `bookshelf-beta-covers`), ופס סגול שמסמן אותה. `data/library.js` משותף לשניהם, כי הוא נתונים ולא קוד.
 
 **מחזור שחרור:**
-1. משנים את `app.html` או את `assets/format.js`, ובודקים מקומית.
-2. `python tools/make_beta.py`, ואז commit **רק** של `beta.html` ו-`assets/beta/`, ו-push (באישור). הבטא מתעדכנת, והאתר הראשי לא משתנה.
+1. משנים קוד ב-`app.html` או ב-`assets/` (לא ב-`assets/beta/`), ומריצים `npm test`.
+2. `npm run beta`, ואז commit **רק** של `beta.html` ו-`assets/beta/`, ו-push (באישור). הבטא מתעדכנת, והאתר הראשי לא משתנה.
 3. בודקים בכתובת הבטא.
-4. אחרי אישור של אוהד: commit של `app.html` ו-`assets/format.js`, ו-push. עכשיו גם האתר הראשי מתעדכן.
+4. אחרי אישור של אוהד: commit של `app.html` ו-`assets/` (בלי `assets/beta/`, שכבר נשמר), ו-push. עכשיו גם האתר הראשי מתעדכן.
 
 אין לערוך את `beta.html` או את `assets/beta/` ביד. `python tools/make_beta.py --check` נכשל אם הם לא מעודכנים.
 

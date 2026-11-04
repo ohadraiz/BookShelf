@@ -1,0 +1,35 @@
+/* BookShelf - Cover images: resizing, storage (IndexedDB locally) and the viewer. */
+"use strict";
+/* ---------- covers ---------- */
+const tmpUrls={};
+const coverUrl=id=>tmpUrls[id]||('/_blob/'+id);
+async function shrink(file){
+  let src;try{src=await createImageBitmap(file,{imageOrientation:'from-image'})}catch(e){src=await new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error('הקובץ אינו תמונה'));im.src=URL.createObjectURL(file)})}
+  const max=1400,k=Math.min(1,max/Math.max(src.width,src.height));
+  const cv=document.createElement('canvas');cv.width=Math.round(src.width*k);cv.height=Math.round(src.height*k);
+  cv.getContext('2d').drawImage(src,0,0,cv.width,cv.height);
+  return await new Promise(r=>cv.toBlob(r,'image/jpeg',.85));
+}
+const idb=(()=>{let p=null;const open=()=>p||(p=new Promise((res,rej)=>{const r=indexedDB.open('bookshelf-covers',1);r.onupgradeneeded=()=>r.result.createObjectStore('covers');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}));
+  const run=(mode,fn)=>open().then(d=>new Promise((res,rej)=>{const t=d.transaction('covers',mode);fn(t.objectStore('covers'));t.oncomplete=()=>res();t.onerror=()=>rej(t.error)}));
+  return{put:(k,v)=>run('readwrite',s=>s.put(v,k)),del:k=>run('readwrite',s=>s.delete(k)),
+    all:()=>open().then(d=>new Promise((res,rej)=>{const out={};const c=d.transaction('covers').objectStore('covers').openCursor();c.onsuccess=()=>{const x=c.result;if(x){out[x.key]=x.value;x.continue()}else res(out)};c.onerror=()=>rej(c.error)}))}})();
+async function loadLocalCovers(){try{const all=await idb.all();for(const k in all)tmpUrls[k]=URL.createObjectURL(all[k])}catch(e){}}
+async function uploadBlob(blob){
+  if(localMode){const id='local-'+uid();await idb.put(id,blob);tmpUrls[id]=URL.createObjectURL(blob);return id}
+  if(!assets){const id='tmp-'+uid();tmpUrls[id]=URL.createObjectURL(blob);return id}
+  const r=await assets.upload(blob);return r.id;
+}
+function dropAsset(id){if(id&&String(id).startsWith('local-')){idb.del(id).catch(()=>{});return}if(id&&assets&&!String(id).startsWith('tmp-'))assets.delete(id).catch(()=>{})}
+function pickImage(){return new Promise(res=>{const f=$('covFile');f.value='';f.onchange=()=>res(f.files[0]||null);f.click()})}
+function showCover(b,k,onRemove,onReplace){
+  const v=document.createElement('div');v.className='viewer';
+  v.innerHTML=`<img src="${coverUrl(b[k])}" alt="${k==='front'?'כריכה קדמית':'כריכה אחורית'}"><div class="va">${b.front&&b.back?`<button id="vFlip">${k==='front'?'לכריכה האחורית':'לכריכה הקדמית'}</button>`:''}${canWrite?'<button id="vRep">החלפת תמונה</button><button class="danger" id="vDel">הסרה</button>':''}<button class="primary" id="vClose">סגירה</button></div>`;
+  document.body.appendChild(v);
+  const shut=()=>v.remove();
+  v.onclick=e=>{if(e.target===v)shut()};
+  v.querySelector('#vClose').onclick=shut;
+  const fl=v.querySelector('#vFlip');if(fl)fl.onclick=()=>{shut();showCover(b,k==='front'?'back':'front',onRemove,onReplace)};
+  const rp=v.querySelector('#vRep');if(rp)rp.onclick=()=>{shut();onReplace(k)};
+  const dl=v.querySelector('#vDel');if(dl)dl.onclick=()=>{shut();onRemove(k)};
+}

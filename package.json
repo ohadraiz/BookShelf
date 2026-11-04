@@ -1,0 +1,10 @@
+{
+  "name": "bookshelf",
+  "private": true,
+  "description": "ארון הספרים שלי - אפליקציית דפדפן בלי תלויות",
+  "scripts": {
+    "start": "python -m http.server 8765 --bind 127.0.0.1",
+    "test": "node tests/structure.test.js && node tests/format.test.js && python tools/test_convert.py && python tools/convert.py validate data/library.json && python tools/make_beta.py --check",
+    "beta": "python tools/make_beta.py"
+  }
+}

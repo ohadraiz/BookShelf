@@ -29,10 +29,9 @@ python -m http.server 8765 --bind 127.0.0.1
 
 ## בדיקות
 ```bash
-node tests/format.test.js
-python tools/test_convert.py
-python tools/convert.py validate data/library.json
+npm test
 ```
+הקוד מחולק לקבצים ב-`assets/` כדי שכמה סוכנים יוכלו לעבוד במקביל. המפה והכללים ב-[AGENTS.md](AGENTS.md).
 
 ## היסטוריה
 הגרסה הראשונה רצה כ-Artifact ב-claude.ai: https://claude.ai/artifact/VpYb4SQNy3fmvKBQBTG9nw. מ-4 בנובמבר 2026 העבודה עברה למחשב, וה-Artifact קפוא.

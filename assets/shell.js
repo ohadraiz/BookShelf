@@ -1,0 +1,42 @@
+/* BookShelf - Page frame: header, menu, dialog and toast elements; $ and toast(). */
+"use strict";
+/* ---------- boot ---------- */
+document.body.insertAdjacentHTML('beforeend',`
+<header>
+ <div class="row"><h1>ארון הספרים שלי</h1><span class="savetxt hide-sm" id="savetxt"></span><span class="dot off" id="dot" title="מצב שמירה"></span>
+  <div class="tabs"><button data-v="shelves">ארון</button><button data-v="list">רשימה</button><button data-v="stats">נתונים</button></div></div>
+ <div class="row">
+  <input type="search" id="q" placeholder="חיפוש ספר, סופר, הערה או שם">
+  <select id="fShelf" class="hide-sm" aria-label="סינון לפי מדף"></select>
+  <button class="fun" id="pick">מה לקרוא?</button>
+  <button class="primary edit-only" id="add">הוספה</button>
+  <div class="menuwrap"><button id="menuBtn" aria-haspopup="true">תפריט</button>
+   <div class="menu" id="menu">
+    <button class="edit-only" data-m="arrange">סידור הארון</button>
+    <button class="edit-only" data-m="shelves">ניהול מדפים</button>
+    <hr class="edit-only">
+    <button data-m="exportLib">ייצוא לקובץ library.json</button>
+    <button data-m="export">ייצוא גיבוי</button>
+    <button class="edit-only" data-m="import">ייבוא מגיבוי</button>
+    <button class="edit-only" data-m="reset" id="resetBtn" hidden>חזרה לנקודת ההתחלה</button>
+    <hr>
+    <button data-m="dark" id="darkBtn">מצב כהה</button>
+   </div></div>
+ </div>
+</header>
+<main id="main"><div class="empty">טוען את הארון...</div></main>
+<div class="overlay" id="ov"><div class="dialog" id="dlg" role="dialog" aria-modal="true"></div></div>
+<input type="file" accept="image/*" id="covFile" hidden>
+<input type="file" accept=".json,application/json" id="impFile" hidden>
+<div class="toast" id="toast" role="status"><span id="toastTxt"></span><button id="toastUndo" hidden>ביטול</button></div>`);
+const $=id=>document.getElementById(id);
+try{if(localStorage.getItem('shelf-dark')==='1')document.body.classList.add('dark')}catch(e){}
+$('darkBtn').textContent=document.body.classList.contains('dark')?'מצב בהיר':'מצב כהה';
+
+/* ---------- toast with undo ---------- */
+let toastTimer;
+function toast(t,undo){
+  $('toastTxt').textContent=t;const u=$('toastUndo');u.hidden=!undo;u.onclick=()=>{u.hidden=true;$('toast').classList.remove('show');undo()};
+  $('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),undo?6000:2400);
+}
+function confetti(){const cs=['#e9b23a','#8c3b2a','#2f7fbf','#3d8a3a','#c0662e'];for(let i=0;i<60;i++){const d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'vw';d.style.background=cs[i%5];d.style.animationDuration=1.6+Math.random()*1.6+'s';d.style.animationDelay=Math.random()*.4+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),4000)}}

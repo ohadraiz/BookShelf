@@ -1,0 +1,44 @@
+{
+  // OpenCode settings for BookShelf, modeled on the Jerusalem Streets project.
+  // Git writes ask first; destructive git commands are blocked.
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode-go/glm-5.3-flash",
+  "default_agent": "build",
+  "shell": "powershell",
+  "formatter": false,
+  "snapshots": true,
+  "watcher": {
+    "ignore": [".git/**", "assets/beta/**", "beta.html", "test.html", "data/library.js"]
+  },
+  "permissions": [
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git log *", "effect": "allow" },
+    { "action": "shell", "resource": "git add *", "effect": "ask" },
+    { "action": "shell", "resource": "git commit *", "effect": "ask" },
+    { "action": "shell", "resource": "git push *", "effect": "ask" },
+    { "action": "shell", "resource": "git push --force*", "effect": "deny" },
+    { "action": "shell", "resource": "git push -f*", "effect": "deny" },
+    { "action": "shell", "resource": "git push *+*", "effect": "deny" },
+    { "action": "shell", "resource": "git reset --hard*", "effect": "deny" },
+    { "action": "shell", "resource": "git clean -f*", "effect": "deny" },
+    { "action": "shell", "resource": "git rebase*", "effect": "deny" },
+    { "action": "shell", "resource": "npm test*", "effect": "allow" },
+    { "action": "shell", "resource": "npm run beta*", "effect": "allow" },
+    { "action": "shell", "resource": "python tools/make_beta.py*", "effect": "allow" },
+    { "action": "shell", "resource": "python tools/convert.py validate*", "effect": "allow" },
+    { "action": "shell", "resource": "python tools/convert.py baseline*", "effect": "ask" },
+    { "action": "shell", "resource": "gh repo edit*", "effect": "deny" },
+    { "action": "read", "resource": ".env*", "effect": "deny" },
+    { "action": "read", "resource": "*.env", "effect": "deny" },
+    { "action": "read", "resource": "*.env.*", "effect": "deny" },
+    { "action": "read", "resource": "*.key", "effect": "deny" },
+    { "action": "read", "resource": "*.pem", "effect": "deny" }
+  ],
+  "agents": {
+    "plan": { "disabled": true },
+    "general": { "disabled": true },
+    "explore": { "disabled": true }
+  },
+  "instructions": ["AGENTS.md"]
+}
