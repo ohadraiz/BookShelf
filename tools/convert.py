@@ -8,6 +8,8 @@ Commands:
   python tools/convert.py to-csv      library.json -o library.csv
   python tools/convert.py from-csv    library.csv  -o library.json
   python tools/convert.py validate    library.json
+  python tools/convert.py to-js       library.json -o data/library.js
+  python tools/convert.py baseline    ~/Downloads/library.json   (new starting point)
 
 Uses only the Python standard library. If the `jsonschema` package is
 installed, `validate` also checks the file against the full JSON Schema.
@@ -365,12 +367,23 @@ def read_json(p):
 
 def write_json(p, data):
     Path(p).parent.mkdir(parents=True, exist_ok=True)
-    Path(p).write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    Path(p).write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+
+
+def write_js(p, lib):
+    """The baseline as a script, so app.html can load it even when opened as a file (file://)."""
+    body = json.dumps(lib, ensure_ascii=False, indent=1).replace("</", "<\\/")
+    Path(p).parent.mkdir(parents=True, exist_ok=True)
+    Path(p).write_text(
+        "/* Generated from data/library.json by tools/convert.py to-js. Do not edit by hand.\n"
+        "   The starting point (baseline) the app loads when this browser has no saved library. */\n"
+        "window.BOOKSHELF_BASELINE = " + body + ";\n",
+        encoding="utf-8", newline="\n")
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["from-backup", "to-backup", "to-csv", "from-csv", "validate"])
+    ap.add_argument("command", choices=["from-backup", "to-backup", "to-csv", "from-csv", "validate", "to-js", "baseline"])
     ap.add_argument("input")
     ap.add_argument("-o", "--output")
     a = ap.parse_args(argv)
@@ -382,7 +395,7 @@ def main(argv=None):
         print(("OK" if not errs else f"{len(errs)} errors") + (" (full schema)" if full else " (basic checks; install jsonschema for the full schema)"))
         return 1 if errs else 0
 
-    if not a.output:
+    if not a.output and a.command != "baseline":
         ap.error("-o is required")
 
     if a.command == "from-backup":
@@ -390,6 +403,35 @@ def main(argv=None):
     elif a.command == "from-csv":
         with open(a.input, encoding="utf-8-sig", newline="") as f:
             lib = from_csv(list(csv.DictReader(f)), DEFAULT_LIBRARY)
+    elif a.command == "baseline":
+        # Make an exported library.json the new starting point: data/library.json, .js and .csv
+        lib_in = read_json(a.input)
+        errs, _ = validate(lib_in)
+        if errs:
+            for e in errs:
+                print("ERROR", e)
+            print("baseline not changed: the file is not valid")
+            return 1
+        data = ROOT / "data"
+        write_json(data / "library.json", lib_in)
+        write_js(data / "library.js", lib_in)
+        with open(data / "library.csv", "w", encoding="utf-8-sig", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
+            w.writeheader()
+            w.writerows(to_csv_rows(lib_in))
+        print(f"new baseline: {len(lib_in['books'])} books -> data/library.json, library.js, library.csv")
+        return 0
+    elif a.command == "to-js":
+        lib_in = read_json(a.input)
+        errs, _ = validate(lib_in)
+        if errs:
+            for e in errs:
+                print("ERROR", e)
+            print("not written: the input is not valid")
+            return 1
+        write_js(a.output, lib_in)
+        print(f"wrote {a.output} ({len(lib_in['books'])} books)")
+        return 0
     elif a.command == "to-backup":
         write_json(a.output, to_backup(read_json(a.input)))
         print("wrote", a.output)

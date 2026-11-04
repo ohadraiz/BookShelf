@@ -59,7 +59,11 @@
 | פורמט קבוע -> גיליון | `python tools/convert.py to-csv data/library.json -o data/library.csv` |
 | גיליון -> פורמט קבוע | `python tools/convert.py from-csv data/library.csv -o data/library.json` |
 | בדיקת תקינות | `python tools/convert.py validate data/library.json` |
-| בדיקת ההמרות | `python tools/test_convert.py` |
+| קובץ שיוצא מהאפליקציה -> נקודת התחלה חדשה | `python tools/convert.py baseline library.json` |
+| פורמט קבוע -> סקריפט שהאפליקציה טוענת | `python tools/convert.py to-js data/library.json -o data/library.js` |
+| בדיקת ההמרות | `python tools/test_convert.py` ו-`node tests/format.test.js` |
+
+אותה המרה כתובה גם ב-JavaScript (`assets/format.js`), כדי שהאפליקציה תייצא ותייבא את הפורמט בעצמה. `tests/format.test.js` בודק ששתי הגרסאות נותנות אותה תוצאה.
 
 ההמרה לא כותבת קובץ לא תקין. אם יש שגיאה, היא מדפיסה אותה ועוצרת.
 

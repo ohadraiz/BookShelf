@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ארון הספרים שלי</title>
+<script src="assets/format.js"></script>
+<script src="data/library.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&family=Frank+Ruhl+Libre:wght@500;700&display=swap">
 <style>
 :root{--bg:#f6f1e9;--panel:#fffdf9;--ink:#2b2420;--muted:#76695e;--line:#e4d9cb;--soft:#f8f2e9;--accent:#8c3b2a;--bar:#a0483a;--warn:#e8a21c;--gold:#e9b23a;--chip:#f1e9dd}
@@ -221,6 +223,8 @@ const clean=o=>{const r={};for(const k in FIELDS)r[k]=o[k]===undefined?(Array.is
 let books=[],meta={shelves:[],goal:0},loaded={books:false,meta:false};
 let view='shelves',q='',fShelf='',fStatus='',fTag='',sortKey='author',sortDir=1,arrange=false,moving=null;
 let db=null,assets=null,sample=null,downloads=null,canWrite=true,memMode=false,firstPaint=true;
+let localMode=false,libInfo=null;
+const LS_KEY='bookshelf-local-v1';
 
 const byId=id=>books.find(b=>b.id===id);
 const shelfIdx=id=>meta.shelves.findIndex(s=>s.id===id);
@@ -245,23 +249,37 @@ function onWriteError(e){
   else{setSave('err','השמירה נכשלה');toast('השמירה נכשלה - נסה שוב')}
   throw e;
 }
+/* local mode: the whole library lives in this browser (localStorage), covers in IndexedDB */
+let persistTimer=null;
+function persistLocal(){
+  clearTimeout(persistTimer);setSave('busy','שומר...');
+  persistTimer=setTimeout(()=>{
+    try{localStorage.setItem(LS_KEY,JSON.stringify({savedAt:new Date().toISOString(),library:libInfo,meta:{shelves:meta.shelves.map(s=>({id:s.id})),goal:meta.goal||0},books}));setSave('','נשמר במחשב')}
+    catch(e){setSave('err','השמירה נכשלה');toast('השמירה במחשב נכשלה - כדאי לייצא גיבוי')}
+  },150);
+  return Promise.resolve();
+}
 function writeBook(id,data){ // full set
   const b=clean(data);
   const i=books.findIndex(x=>x.id===id);if(i<0)books.push(Object.assign({id},b));else books[i]=Object.assign({id},b);
+  if(localMode)return persistLocal();
   if(memMode)return Promise.resolve();
   return enqueue('b/'+id,()=>db.collection('books').doc(id).set(b)).catch(()=>{});
 }
 function patchBook(id,patch){
   const b=byId(id);if(!b)return;Object.assign(b,patch);
+  if(localMode)return persistLocal();
   if(memMode)return Promise.resolve();
   return enqueue('b/'+id,()=>db.collection('books').doc(id).update(patch)).catch(()=>{});
 }
 function removeBook(id){
   books=books.filter(b=>b.id!==id);
+  if(localMode)return persistLocal();
   if(memMode)return Promise.resolve();
   return enqueue('b/'+id,()=>db.collection('books').doc(id).delete()).catch(()=>{});
 }
 function saveMeta(){
+  if(localMode)return persistLocal();
   if(memMode)return Promise.resolve();
   const m={shelves:meta.shelves.map(s=>({id:s.id})),goal:meta.goal||0};
   return enqueue('meta',()=>db.doc('meta/main').set(m)).catch(()=>{});
@@ -283,8 +301,10 @@ document.body.insertAdjacentHTML('beforeend',`
     <button class="edit-only" data-m="arrange">סידור הארון</button>
     <button class="edit-only" data-m="shelves">ניהול מדפים</button>
     <hr class="edit-only">
+    <button data-m="exportLib">ייצוא לקובץ library.json</button>
     <button data-m="export">ייצוא גיבוי</button>
     <button class="edit-only" data-m="import">ייבוא מגיבוי</button>
+    <button class="edit-only" data-m="reset" id="resetBtn" hidden>חזרה לנקודת ההתחלה</button>
     <hr>
     <button data-m="dark" id="darkBtn">מצב כהה</button>
    </div></div>
@@ -428,11 +448,17 @@ async function shrink(file){
   cv.getContext('2d').drawImage(src,0,0,cv.width,cv.height);
   return await new Promise(r=>cv.toBlob(r,'image/jpeg',.85));
 }
+const idb=(()=>{let p=null;const open=()=>p||(p=new Promise((res,rej)=>{const r=indexedDB.open('bookshelf-covers',1);r.onupgradeneeded=()=>r.result.createObjectStore('covers');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}));
+  const run=(mode,fn)=>open().then(d=>new Promise((res,rej)=>{const t=d.transaction('covers',mode);fn(t.objectStore('covers'));t.oncomplete=()=>res();t.onerror=()=>rej(t.error)}));
+  return{put:(k,v)=>run('readwrite',s=>s.put(v,k)),del:k=>run('readwrite',s=>s.delete(k)),
+    all:()=>open().then(d=>new Promise((res,rej)=>{const out={};const c=d.transaction('covers').objectStore('covers').openCursor();c.onsuccess=()=>{const x=c.result;if(x){out[x.key]=x.value;x.continue()}else res(out)};c.onerror=()=>rej(c.error)}))}})();
+async function loadLocalCovers(){try{const all=await idb.all();for(const k in all)tmpUrls[k]=URL.createObjectURL(all[k])}catch(e){}}
 async function uploadBlob(blob){
+  if(localMode){const id='local-'+uid();await idb.put(id,blob);tmpUrls[id]=URL.createObjectURL(blob);return id}
   if(!assets){const id='tmp-'+uid();tmpUrls[id]=URL.createObjectURL(blob);return id}
   const r=await assets.upload(blob);return r.id;
 }
-function dropAsset(id){if(id&&assets&&!String(id).startsWith('tmp-'))assets.delete(id).catch(()=>{})}
+function dropAsset(id){if(id&&String(id).startsWith('local-')){idb.del(id).catch(()=>{});return}if(id&&assets&&!String(id).startsWith('tmp-'))assets.delete(id).catch(()=>{})}
 function pickImage(){return new Promise(res=>{const f=$('covFile');f.value='';f.onchange=()=>res(f.files[0]||null);f.click()})}
 function showCover(b,k,onRemove,onReplace){
   const v=document.createElement('div');v.className='viewer';
@@ -515,7 +541,7 @@ function openBook(id,preset){
   async function uploadCover(k){
     const f=await pickImage();if(!f)return;syncNewFields();
     const slot=$('dlg').querySelector(`[data-cov="${k}"]`);if(slot){slot.classList.add('busy-over');slot.dataset.busy='מעלה...'}
-    try{const blob=await shrink(f);const aid=await uploadBlob(blob);const old=B()[k];if(isNew)newAssets.push(aid);set({[k]:aid});if(old)dropAsset(old);toast(assets?'התמונה נשמרה':'בתצוגה הזו התמונה לא תישמר')}
+    try{const blob=await shrink(f);const aid=await uploadBlob(blob);const old=B()[k];if(isNew)newAssets.push(aid);set({[k]:aid});if(old)dropAsset(old);toast(assets||localMode?'התמונה נשמרה':'בתצוגה הזו התמונה לא תישמר')}
     catch(err){if(slot)slot.classList.remove('busy-over');toast('העלאת התמונה נכשלה')}
   }
   function removeCover(k){const old=B()[k];set({[k]:''});if(isNew)dropAsset(old);else toast('התמונה הוסרה',()=>{set({[k]:old})});if(!isNew)setTimeout(()=>{const cur=B();if(cur&&cur[k]!==old)dropAsset(old)},8000)}
@@ -597,10 +623,30 @@ function sortShelf(sid,key){
 function moveShelf(i,d){const j=i+d;if(j<0||j>=meta.shelves.length)return;[meta.shelves[i],meta.shelves[j]]=[meta.shelves[j],meta.shelves[i]];saveMeta();render()}
 
 /* ---------- backup ---------- */
+function saveFile(name,data,type){
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+}
+function libraryInfoOf(lib){const L=Object.assign({},lib.library||{});delete L.shelves;delete L.yearlyGoal;return L}
+function exportLibrary(){
+  if(!window.BookFormat){toast('רכיב הפורמט לא נטען');return}
+  const lib=BookFormat.toLibrary(meta,books,libInfo||BookFormat.DEFAULT_LIBRARY);
+  saveFile('library.json',JSON.stringify(lib,null,2)+'\n','application/json');
+  toast('הקובץ library.json נשמר בתיקיית ההורדות');
+}
+function resetToBaseline(){
+  const base=window.BOOKSHELF_BASELINE;
+  if(!base||!window.BookFormat){toast('לא נמצא קובץ נקודת ההתחלה (data/library.js)');return}
+  $('dlg').innerHTML=`<div class="dbody"><h3>חזרה לנקודת ההתחלה</h3><p>הארון יחזור למצב שבקובץ data/library.json (${base.books.length} ספרים). כל השינויים שנעשו מאז במחשב הזה יימחקו.</p><p style="color:var(--muted);font-size:14px">כדי לשמור אותם, קודם ייצאו לקובץ library.json.</p><div class="actions"><span class="grow"></span><button id="cancel">ביטול</button><button class="danger" id="go">לחזור להתחלה</button></div></div>`;
+  $('ov').classList.add('open');$('cancel').onclick=close;
+  $('go').onclick=()=>{loadLibrary(base);persistLocal();close();toast('הארון חזר לנקודת ההתחלה')};
+}
+function loadLibrary(lib){const d=BookFormat.fromLibrary(lib);libInfo=libraryInfoOf(lib);meta=d.meta;books=d.books.map(b=>Object.assign({id:b.id},clean(b)))}
 async function exportBackup(){
   const data=JSON.stringify({app:'bookshelf',version:2,exported:new Date().toISOString(),meta:{shelves:meta.shelves,goal:meta.goal||0},books:books.map(b=>Object.assign({id:b.id},clean(b)))},null,1);
   const name='גיבוי-ארון-ספרים-'+today()+'.json';
   if(downloads){try{await downloads.save({filename:name,data});toast('הגיבוי נשמר');return}catch(e){if(e&&e.code==='declined')return}}
+  if(localMode){saveFile(name,data,'application/json');toast('הגיבוי נשמר בתיקיית ההורדות');return}
   $('dlg').innerHTML=`<div class="dbody"><h3>גיבוי הארון</h3><p style="color:var(--muted);font-size:14px">אפשר להעתיק את הטקסט ולשמור אותו כקובץ.</p><textarea id="bk" rows="8" style="width:100%;direction:ltr;font-size:11px" readonly></textarea><div class="actions"><span class="grow"></span><button id="cp">העתקה</button><button class="primary" id="cancel">סגירה</button></div></div>`;
   $('bk').value=data;$('ov').classList.add('open');$('cancel').onclick=close;
   $('cp').onclick=async()=>{try{await navigator.clipboard.writeText(data);toast('הועתק')}catch(e){$('bk').select();toast('סמן והעתק ידנית')}};
@@ -608,7 +654,7 @@ async function exportBackup(){
 function importBackup(){
   const f=$('impFile');f.value='';f.onchange=async()=>{
     const file=f.files[0];if(!file)return;let d;
-    try{d=JSON.parse(await file.text());if(!d||!Array.isArray(d.books)||!d.meta)throw 0}catch(e){toast('הקובץ אינו גיבוי תקין של הארון');return}
+    try{d=JSON.parse(await file.text());if(d&&d.format==='bookshelf-library'){libInfo=libraryInfoOf(d);d=BookFormat.fromLibrary(d)}if(!d||!Array.isArray(d.books)||!d.meta)throw 0}catch(e){toast('הקובץ אינו גיבוי תקין של הארון');return}
     $('dlg').innerHTML=`<div class="dbody"><h3>ייבוא מגיבוי</h3><p>בגיבוי יש ${d.books.length} ספרים ו-${(d.meta.shelves||[]).length} מדפים. הייבוא יחליף את כל מה שיש עכשיו בארון (${books.length} ספרים).</p><div class="actions"><span class="grow"></span><button id="cancel">ביטול</button><button class="primary" id="go">להחליף</button></div></div>`;
     $('ov').classList.add('open');$('cancel').onclick=close;
     $('go').onclick=async()=>{
@@ -637,6 +683,8 @@ $('menu').onclick=e=>{const m=e.target.closest('[data-m]');if(!m)return;$('menu'
   else if(k==='shelves')openShelves();
   else if(k==='export')exportBackup();
   else if(k==='import')importBackup();
+  else if(k==='exportLib')exportLibrary();
+  else if(k==='reset')resetToBaseline();
   else if(k==='dark'){const on=document.body.classList.toggle('dark');$('darkBtn').textContent=on?'מצב בהיר':'מצב כהה';try{localStorage.setItem('shelf-dark',on?'1':'0')}catch(err){}}};
 $('ov').onclick=e=>{if(e.target.id==='ov')close()};
 document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const v=document.querySelector('.viewer');if(v){v.remove();return}if($('ov').classList.contains('open'))close();else if(arrange)setArrange(false)});
@@ -697,9 +745,18 @@ function dataArrived(){
 function startMemory(seed){
   memMode=true;books=seed.books.map(b=>Object.assign({id:b.id},clean(b)));meta=seed.meta;loaded.books=loaded.meta=true;setSave('off','תצוגה מקדימה - שינויים לא נשמרים');render();if(splashLine)splashLine();
 }
+async function startLocal(){
+  localMode=true;$('resetBtn').hidden=false;
+  let saved=null;try{saved=JSON.parse(localStorage.getItem(LS_KEY)||'null')}catch(e){}
+  if(saved&&Array.isArray(saved.books)&&saved.meta){libInfo=saved.library||null;meta={shelves:(saved.meta.shelves||[]).map(s=>({id:String(s.id)})),goal:saved.meta.goal||0};books=saved.books.map(b=>Object.assign({id:String(b.id)},clean(b)))}
+  else if(window.BOOKSHELF_BASELINE&&window.BookFormat){loadLibrary(window.BOOKSHELF_BASELINE);persistLocal()}
+  else{$('main').innerHTML='<div class="empty">לא נמצאו נתוני הארון (data/library.js). הריצו: python tools/convert.py to-js data/library.json -o data/library.js</div>';setSave('err','אין נתונים');return}
+  await loadLocalCovers();
+  loaded.books=loaded.meta=true;setSave('','נשמר במחשב');render();if(splashLine)splashLine();
+}
 async function boot(){
   const demo=document.getElementById('demo');
-  if(!(window.claude&&window.claude.use)){if(demo)startMemory(JSON.parse(demo.textContent));else{$('main').innerHTML='<div class="empty">פתח את הארון מהקישור שלו כדי לראות את הספרים.</div>';setSave('off','')}return}
+  if(!(window.claude&&window.claude.use)){if(demo)startMemory(JSON.parse(demo.textContent));else startLocal();return}
   claude.use('assets').then(a=>{assets=a}).catch(()=>{});
   claude.use('downloads').then(d=>{downloads=d}).catch(()=>{});
   claude.use('sample').then(s=>{sample=s}).catch(()=>{});
