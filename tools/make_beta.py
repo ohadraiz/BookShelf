@@ -9,6 +9,7 @@ Data files (data/library.js) are shared: they are data, not code.
 
 Never edit beta.html or assets/beta/ by hand.
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -29,7 +30,12 @@ HTML_REPLACEMENTS = [
     ("<title>ארון הספרים שלי</title>\n",
      "<title>בטא - ארון הספרים שלי</title>\n<meta name=\"robots\" content=\"noindex\">\n" + BANNER_CSS),
     ("<body>\n", "<body>\n" + BANNER),
+    ('<link rel="manifest" href="manifest.webmanifest">', '<link rel="manifest" href="manifest-beta.webmanifest">'),
+    ('<meta name="apple-mobile-web-app-title" content="ארון ספרים">', '<meta name="apple-mobile-web-app-title" content="בטא ארון">'),
 ]
+# The beta installs as its own app, separate from the main one.
+MANIFEST_BETA = {"id": "./beta.html", "start_url": "./beta.html",
+                 "name": "בטא - ארון הספרים שלי", "short_name": "בטא ארון"}
 # Separate browser storage for beta. Each must appear exactly once in its file.
 FILE_REPLACEMENTS = {
     "core.js": [("const LS_KEY='bookshelf-local-v1';", "const LS_KEY='bookshelf-beta-v1';")],
@@ -75,6 +81,10 @@ def build():
     if missing:
         sys.exit("make_beta: app.html loads files that are not in assets/: " + ", ".join(sorted(missing)))
     out["beta.html"] = f"<!-- {GENERATED} -->\n" + html
+
+    manifest = json.loads((ROOT / "manifest.webmanifest").read_text(encoding="utf-8"))
+    manifest.update(MANIFEST_BETA)
+    out["manifest-beta.webmanifest"] = json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
     return out
 
 
@@ -90,14 +100,14 @@ def main():
             print("make_beta: out of date:", ", ".join(stale + [x + " (extra)" for x in extra]),
                   "- run python tools/make_beta.py")
             return 1
-        print(f"make_beta: beta is up to date ({len(files) - 1} code files)")
+        print(f"make_beta: beta is up to date ({len(files) - 2} code files)")
         return 0
     BETA_ASSETS.mkdir(parents=True, exist_ok=True)
     for p in extra:
         (ROOT / p).unlink()
     for p, t in files.items():
         (ROOT / p).write_text(t, encoding="utf-8", newline="\n")
-    print(f"make_beta: wrote beta.html and {len(files) - 1} files in assets/beta/"
+    print(f"make_beta: wrote beta.html, manifest-beta.webmanifest and {len(files) - 2} files in assets/beta/"
           + (f", removed {len(extra)} old" if extra else ""))
     return 0
 
