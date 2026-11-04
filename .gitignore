@@ -12,3 +12,6 @@ venv/
 
 # Playwright MCP snapshots and logs
 .playwright-mcp/
+
+# Temporary working files from tool sessions
+tmp/

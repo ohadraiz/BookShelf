@@ -25,7 +25,7 @@ python -m http.server 8765 --bind 127.0.0.1
 | לחזור להתחלה | תפריט > "חזרה לנקודת ההתחלה" |
 | לפתוח בגיליון | `data/library.csv` |
 
-פרטים: [docs/FORMAT.md](docs/FORMAT.md). תוכנית העבודה: [docs/ROADMAP.md](docs/ROADMAP.md). הוראות לסוכנים: [AGENTS.md](AGENTS.md).
+פרטים: [docs/FORMAT.md](docs/FORMAT.md). תוכנית העבודה: [docs/ROADMAP.md](docs/ROADMAP.md). מעקב גרסאות: [דף HTML](docs/versions.html) או [קובץ התיעוד](docs/CHANGELOG.md). הוראות לסוכנים: [AGENTS.md](AGENTS.md).
 
 ## בדיקות
 ```bash
